@@ -48,5 +48,6 @@ Here are entries for citing |cyclus| and Cycamore in your publications:
 .. bibliography:: citecyc.bib
    :all:
    :list: bullet
+   :style: unsrt
 
 .. _here: citecyc.bib
