@@ -11,9 +11,10 @@
 The following are notable publications regarding |cyclus|:
 
 .. bibliography:: pubs.bib
-   :all:
-   :list: enumerated
-   :enumtype: upperroman
+    :all:
+    :list: enumerated
+    :enumtype: upperroman
+    :style: unsrt
 
 |Cyclus| Presentations
 -----------------------
@@ -47,5 +48,6 @@ Here are entries for citing |cyclus| and Cycamore in your publications:
 .. bibliography:: citecyc.bib
    :all:
    :list: bullet
+   :style: unsrt
 
 .. _here: citecyc.bib
