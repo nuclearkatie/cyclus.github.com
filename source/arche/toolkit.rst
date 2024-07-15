@@ -126,8 +126,38 @@ Multi-Resource Buffer Inventory Tracker [C++]
 
 Material Buy Policy Class [C++]
 +++++++++++++++++++++++++++++++
-  The ``cyclus::toolkit::MatlBuyPolicy`` class manages the process of requesting
-  a particular commodity. 
+  The ``cyclus::toolkit::MatlBuyPolicy`` class performs semi-automatic 
+  inventory management of a material buffer .
+  For simple behavior, policies virtually eliminate the need to write any code
+  for resource exchange. Just assign a few policies to work with a few buffers
+  and focus on writing the physics and other behvavior of your agent. Typical
+  usage goes something like this:
+
+  .. code-block:: c++
+    class YourAgent : public cyclus::Facility {
+    public:
+      ...
+
+      void EnterNotify() {
+        cyclus::Facility::EnterNotify(); // always do this first
+
+        policy_.Init(this, &inbuf_, "inbuf-label").Set(incommod, comp).Start();
+      }
+      ...
+
+    private:
+      MatlBuyPolicy policy_;
+      ResBuf<Material> inbuf_;
+      ...
+    }
+
+
+  The policy needs to be initialized with its owning agent and the material
+  buffer that is is managing. It also needs to be activated by calling the
+  Start function for it to begin participation in resource exchange.  And
+  don't forget to add some commodities to request by calling Set. All policy
+  configuration should usually occur in the agent's EnterNotify member
+  function.
 
   The following inventory management strategies are available:
 
@@ -170,5 +200,48 @@ Material Buy Policy Class [C++]
 
 Material Sell Policy Class [C++]
 ++++++++++++++++++++++++++++++++
-  The ``cyclus::toolkit::MatlSellPolicy`` class manages the process of providing
-  a particular commodity to the DRE.
+  The ``cyclus::toolkit::MatlSellPolicy`` class performs semi-automatic inventory 
+  management of a material buffer by making offers and trading away materials 
+  in an attempt to empty the buffer's inventory every time step.
+
+  For simple behavior, policies virtually eliminate the need to write any code
+  for resource exchange. Just assign a few policies to work with a few buffers
+  and focus on writing the physics and other behvavior of your agent.  Typical
+  usage goes something like this:
+
+  .. code-block:: c++
+    class YourAgent : public Facility {
+      public:
+        ...
+
+        void EnterNotify() {
+          Facility::EnterNotify(); // always do this first
+
+          policy_.Init(this, &outbuf_, "outbuf-label", ...).Set(outcommod).Start();
+        }
+        ...
+
+       private:
+        MatlSellPolicy policy_;
+        ResBuf<Material> outbuf_;
+         ...
+    }
+
+  The policy needs to be initialized with its owning agent and the material
+  buffer that is is managing. It also needs to be activated by calling the
+  Start function for it to begin participation in resource exchange.  And
+  don't forget to add some commodities to offer on by calling Set.  All policy
+  configuration should usually occur in the agent's EnterNotify member
+  function.
+
+  When a policy's managing agent is deallocated, you MUST either
+  call the policy's Stop function or delete the policy. Otherwise SEGFAULT.
+
+  ``MatlSellPolicy`` can be initialized with a package and transport unit.
+  When responding to requests for bids, the policy will only offer resources
+  in quantities that can be packaged (and placed into transport units, if
+  applicable). The packaging process occurs only after trades have been accepted,
+  in the case that partial trades are accepted. Note that partial acceptance of
+  bids may result in "failed" trades where the accepted amount cannot be packaged
+  and thus only a portion of the bid gets packaged and sent to the receiving
+  agent.

@@ -9,7 +9,9 @@ facility archetype; Storage re-packages outgoing commodidies as they are being
 traded to another agent.
 
 Packaging is currently available in the Material Sell Policy (see Cyclus Toolkit),
-and is implemented in cyc
+and is implemented in cycamore:Storage. Storage makes bids on its outcommodity
+based on its packaging restrictions and re-packages outgoing commodidies
+as they are being traded to another agent.
 
 A ``package`` block has the following sections:
 
