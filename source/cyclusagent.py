@@ -139,6 +139,9 @@ default_types = {
     'package': None,
     'inpackage': None,
     'outpackage': None,
+    'transportunit': None,
+    'intransportunit': None,
+    'outtransportunit': None,
     'none': None,
     None: None,
     '': None,
@@ -156,6 +159,9 @@ special_uitypes = {
     'package': None,
     'inpackage': None,
     'outpackage': None,
+    'transportunit': None,
+    'intransportunit': None,
+    'outtransportunit': None,
     }
 
 def _type(cpp, given=None):
