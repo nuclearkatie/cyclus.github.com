@@ -1,6 +1,4 @@
-FROM ghcr.io/cyclus/cymetric_22.04_apt/cymetric:latest
+FROM ghcr.io/cyclus/cymetric_22.04_conda/cymetric:latest
 
-RUN apt-get update
-RUN apt-get install -y --force-yes wget python3-pip
-RUN python3 -m pip install sphinx sphinxcontrib-bibtex cloud-sptheme
-
+RUN mamba update -y --all
+RUN mamba install -y sphinx sphinxcontrib-bibtex cloud_sptheme
